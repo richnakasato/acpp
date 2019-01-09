@@ -13,5 +13,11 @@ int main()
     { const std::string s = "another string";   // inside function with same
       std::cout << s << std::endl; };}          // name as calling function var
 
+    { std::string s = "a string";
+    { std::string x = s + ", really";
+    std::cout << x << std::endl; }              // x out of scope with '}'
+    std::cout << s << std::endl;                // can fix with swap x,s
+    }                                           // or move '}'
+
     return 0;
 }
