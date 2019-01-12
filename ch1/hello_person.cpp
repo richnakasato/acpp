@@ -23,8 +23,9 @@ int main()
     const std::string message1 = hello + ", world" + "!"; // also works (const init string + literal)
 
     const std::string exclam = "!"; // works, single character string literal
-    //const std::string message2 = "Hello" + ", world" + exclam; // this does not work, why?
-    const std::string message3 = exclam + "Hello" + ", world"; // but this works...
+    //const std::string message2 = "Hello" + ", world" + exclam; // this does not work, why? (can't "+" two string literals, + not overloaded for them!)
+    //const std::string message3 = exclam + "Hello" + ", world"; // this works...
+    const std::string message3 = "Hello" + exclam + ", world"; // this works...
 
     return 0;
 }
