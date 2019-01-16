@@ -13,8 +13,10 @@ int main()
     }
     std::sort(inputs.begin(), inputs.end());
     int count = 0;
+    int total = 0;
     temp = "";
     for (const auto& s : inputs) {
+        ++total;
         if (temp == "") {
             temp = s;
             count = 1;
@@ -31,6 +33,7 @@ int main()
         }
     }
     std::cout << temp << ": " << count << std::endl;
+    std::cout << "total words: " << total << std::endl;
 
     return 0;
 }
