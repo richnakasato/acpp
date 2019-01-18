@@ -29,3 +29,19 @@ bool fgrade(const Student_info& s)
 {
     return grade(s) < 60;
 }
+
+std::list<Student_info> extract_fails(std::list<Student_info>& students)
+{
+    std::list<Student_info> fails;
+    std::list<Student_info>::iterator iter = students.begin();
+    while (iter != students.end()) {
+        if (fgrade(*iter)) {
+            fails.push_back(*iter);
+            iter = students.erase(iter);
+        }
+        else {
+            ++iter;
+        }
+    }
+    return fails;
+}

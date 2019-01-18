@@ -28,19 +28,3 @@ std::istream& read_hw(std::istream& in, std::vector<double>& hw)
     }
     return in;
 }
-
-std::list<Student_info> extract_fails(std::list<Student_info>& students)
-{
-    std::list<Student_info> fails;
-    std::list<Student_info>::iterator iter = students.begin();
-    while (iter != students.end()) {
-        if (fgrade(*iter)) {
-            fails.push_back(*iter);
-            iter = students.erase(iter);
-        }
-        else {
-            ++iter;
-        }
-    }
-    return fails;
-}
