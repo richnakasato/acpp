@@ -18,8 +18,8 @@ std::vector<std::string> split(const std::string& s)
             ++j;
         }
         if (i != j) {
-            std::cout << s.substr(i, j-1) << std::endl;
-            ret.push_back(s.substr(i, j-1));
+            str_size num_chars = j-i;
+            ret.push_back(s.substr(i, num_chars));
             i = j;
         }
     }
