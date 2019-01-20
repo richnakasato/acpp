@@ -1,9 +1,9 @@
 #ifndef GUARD_vector_algs_h
 #define GUARD_vector_algs_h
 
-#include <algorithm>
+#include <iostream>
 #include <vector>
 
-std::istream& read_vector(std::istream&, std::vector<std::string>);
+std::istream& read_double_vector(std::istream&, std::vector<double>&);
 
 #endif // GUARD_vector_algs_h

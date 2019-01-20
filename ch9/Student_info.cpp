@@ -1,3 +1,4 @@
+#include "median.h"
 #include "Student_info.h"
 #include "vector_algs.h"
 
@@ -6,32 +7,24 @@ double Student_info::exam_grade() const
     return 0.2 * midterm + 0.4 * final_;
 }
 
-double Student_info::homework_grade() const
+double Student_info::homework_grade()
 {
-    return 1.0;
+    return 0.4 * median(homeworks);
 }
 
 std::istream& Student_info::read(std::istream& in)
 {
     in >> n >> midterm >> final_;
+    read_double_vector(in, homeworks);
     return in;
 }
 
-std::string Student_info::name() const
-{
-    return n;
-}
-
-double Student_info::grade() const
+double Student_info::grade()
 {
     return exam_grade() + homework_grade();
 }
 
-int main()
+bool compare(const Student_info& x, const Student_info& y)
 {
-    Student_info record;
-    record.read(std::cin);
-    std::cout << record.name();
-    std::cout << record.grade();
-    return 0;
+    return x.name() < y.name();
 }
