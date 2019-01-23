@@ -6,18 +6,27 @@
 #include <vector>
 
 class Student_info {
-    std::string n;
-    double midterm=0.0, final_=0.0;
-    std::vector<double> homeworks;
+public:
+    Student_info();
+    Student_info(std::istream&);
+
+    std::istream& read(std::istream&);
+
+    std::string name() const { return name_; }
+    double grade() const { return grade_; }
+
+    bool valid() const { return !homeworks_.empty(); }
+
+private:
+    std::string name_;
+    double midterm_;
+    double final_;
+    double grade_;
+    std::vector<double> homeworks_;
 
     double exam_grade() const;
-    double homework_grade();
+    double homework_grade() const;
 
-public:
-    std::istream& read(std::istream&);
-    std::string name() const { return n; };
-    bool valid() const { return !homeworks.empty(); }
-    double grade();
 };
 
 bool compare(const Student_info&, const Student_info&);

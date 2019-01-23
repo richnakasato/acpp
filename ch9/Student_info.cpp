@@ -2,26 +2,36 @@
 #include "Student_info.h"
 #include "vector_algs.h"
 
-double Student_info::exam_grade() const
+Student_info::Student_info() : midterm_{0.0}, final_{0.0}, grade_{0.0} {}
+
+Student_info::Student_info(std::istream& in)
 {
-    return 0.2 * midterm + 0.4 * final_;
+    read(in);
 }
 
-double Student_info::homework_grade()
+double Student_info::exam_grade() const
 {
-    return 0.4 * median(homeworks);
+    return 0.2 * midterm_ + 0.4 * final_;
+}
+
+double Student_info::homework_grade() const
+{
+    return 0.4 * median(homeworks_);
 }
 
 std::istream& Student_info::read(std::istream& in)
 {
-    in >> n >> midterm >> final_;
-    read_double_vector(in, homeworks);
-    return in;
-}
+    in >> name_ >> midterm_ >> final_;
+    read_double_vector(in, homeworks_);
 
-double Student_info::grade()
-{
-    return exam_grade() + homework_grade();
+    if (valid()) {
+        grade_ = exam_grade() + homework_grade();
+    }
+    else {
+        grade_ = exam_grade();
+    }
+
+    return in;
 }
 
 bool compare(const Student_info& x, const Student_info& y)
