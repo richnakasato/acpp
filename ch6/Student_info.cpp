@@ -1,8 +1,8 @@
 #include <algorithm>
 
 #include "grade.h"
-#include "vector_algs.h"
 #include "Student_info.h"
+#include "vector_algs.h"
 
 bool compare(const Student_info& left, const Student_info& right)
 {
@@ -21,18 +21,28 @@ double median_analysis(const std::vector<Student_info>& students)
     std::transform(students.begin(),
                    students.end(),
                    std::back_inserter(grades),
-                   grade_aux);
+                   median_grade_aux);
     return median(grades);
 }
 
 double average_analysis(const std::vector<Student_info>& students)
 {
-    return 0.0;
+    std::vector<double> grades;
+    std::transform(students.begin(),
+                   students.end(),
+                   std::back_inserter(grades),
+                   average_grade_aux);
+    return median(grades);
 }
 
 double optimistic_median_analysis(const std::vector<Student_info>& students)
 {
-    return 0.0;
+    std::vector<double> grades;
+    std::transform(students.begin(),
+                   students.end(),
+                   std::back_inserter(grades),
+                   optimistic_median_grade_aux);
+    return median(grades);
 }
 
 std::istream& read(std::istream& in, Student_info& s)

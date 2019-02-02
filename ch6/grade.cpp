@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <stdexcept>
 
 #include "grade.h"
@@ -18,13 +19,18 @@ double median_grade(const double& midterm,
         return grade(midterm, final_, median(homeworks));
     }
     catch (std::domain_error) {
-        return grade(s.midterm, s.final_, 0.0);
+        return grade(midterm, final_, 0.0);
     }
 }
 
 double median_grade(const Student_info& s)
 {
     return median_grade(s.midterm, s.final_, s.homeworks);
+}
+
+double median_grade_aux(const Student_info& s)
+{
+    return median_grade(s);
 }
 
 double average_grade(const double& midterm,
@@ -35,7 +41,7 @@ double average_grade(const double& midterm,
         return grade(midterm, final_, average(homeworks));
     }
     catch (std::domain_error) {
-        return grade(s.midterm, s.final_, 0.0);
+        return grade(midterm, final_, 0.0);
     }
 }
 
@@ -44,14 +50,22 @@ double average_grade(const Student_info& s)
     return average_grade(s.midterm, s.final_, s.homeworks);
 }
 
-double grade_aux(const Student_info& s)
+double average_grade_aux(const Student_info& s)
 {
-    try {
-        return median_grade(s);
-    }
-    catch (std::domain_error) {
+    return average_grade(s);
+}
+
+double optimistic_median_grade_aux(const Student_info& s)
+{
+    std::vector<double> nonzero;
+    std::remove_copy(s.homeworks.begin(),
+                     s.homeworks.end(),
+                     std::back_inserter(nonzero),
+                     0.0);
+    if (nonzero.empty())
         return grade(s.midterm, s.final_, 0.0);
-    }
+    else
+        return grade(s.midterm, s.final_, median(nonzero));
 }
 
 bool fgrade(const Student_info& s)
