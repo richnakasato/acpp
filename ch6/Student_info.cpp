@@ -47,9 +47,10 @@ double optimistic_median_analysis(const std::vector<Student_info>& students)
 
 std::istream& read(std::istream& in, Student_info& s)
 {
-    std::cout << "Enter name, midterm, final, homeworks, followed by ctrl-d: ";
-
+    std::cout << "Enter name, midterm, final: ";
     in >> s.name >> s.midterm >> s.final_;
+
+    std::cout << "Enter homeworks for " << s.name << ", followed by ctrl-d: ";
     read_hw(in, s.homeworks);
 
     return in;

@@ -17,20 +17,18 @@ int main()
 
     while (read(std::cin, record)) {
         max_len = std::max(max_len, record.name.size());
-        if (did_all_homework(record)) {
+        if (did_all_homework(record))
             did.push_back(record);
-            return 1;
-        }
-        else {
+        else
             didnt.push_back(record);
-            return 1;
-        }
     }
 
     if (did.empty())
         std::cout << "No student did all homeworks!" << std::endl;
     if (didnt.empty())
         std::cout << "Every student did all homeworks!" << std::endl;
+
+    std::cout << "\n---Grades---" << std::endl;
 
     write_analysis(std::cout, "median", median_analysis, did, didnt);
     write_analysis(std::cout, "average", average_analysis, did, didnt);
