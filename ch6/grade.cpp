@@ -73,6 +73,11 @@ bool fgrade(const Student_info& s)
     return median_grade(s) < 60;
 }
 
+bool pgrade(const Student_info& s)
+{
+    return !fgrade(s);
+}
+
 std::list<Student_info> extract_fails(std::list<Student_info>& students)
 {
     std::list<Student_info> fails;
@@ -86,5 +91,27 @@ std::list<Student_info> extract_fails(std::list<Student_info>& students)
             ++iter;
         }
     }
+    return fails;
+}
+
+std::vector<Student_info> extract_fails_2p(std::vector<Student_info>& students)
+{
+    std::vector<Student_info> fails;
+    std::remove_copy_if(students.begin(),
+                        students.end(),
+                        std::back_inserter(fails),
+                        pgrade);
+    std::vector<Student_info>::iterator it
+        = std::remove_if(students.begin(), students.end(), fgrade);
+    std::erase(it, students.end());
+    return fails;
+}
+
+std::vector<Student_info> extract_fails_1p(std::vector<Student_info>& students)
+{
+    std::vector<Student_info>::iterator it
+        = std::stable_partition(students.begin(), students.end(), pgrade);
+    std::vector<Student_info> fails(it, students.end());
+    std::erase(it, students.end());
     return fails;
 }
