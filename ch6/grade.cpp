@@ -103,7 +103,7 @@ std::vector<Student_info> extract_fails_2p(std::vector<Student_info>& students)
                         pgrade);
     std::vector<Student_info>::iterator it
         = std::remove_if(students.begin(), students.end(), fgrade);
-    std::erase(it, students.end());
+    students.erase(it, students.end());
     return fails;
 }
 
@@ -112,6 +112,6 @@ std::vector<Student_info> extract_fails_1p(std::vector<Student_info>& students)
     std::vector<Student_info>::iterator it
         = std::stable_partition(students.begin(), students.end(), pgrade);
     std::vector<Student_info> fails(it, students.end());
-    std::erase(it, students.end());
+    students.erase(it, students.end());
     return fails;
 }

@@ -45,6 +45,17 @@ double optimistic_median_analysis(const std::vector<Student_info>& students)
     return median(grades);
 }
 
+double grade_analysis(const std::vector<Student_info>& students,
+                      double grade(const Student_info&))
+{
+    std::vector<double> grades;
+    std::transform(students.begin(),
+                   students.end(),
+                   std::back_inserter(grades),
+                   grade);
+    return median(grades);
+}
+
 std::istream& read(std::istream& in, Student_info& s)
 {
     std::cout << "Enter name, midterm, final: ";

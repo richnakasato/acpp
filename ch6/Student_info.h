@@ -17,6 +17,8 @@ bool did_all_homework(const Student_info&);
 double median_analysis(const std::vector<Student_info>&);
 double average_analysis(const std::vector<Student_info>&);
 double optimistic_median_analysis(const std::vector<Student_info>&);
+double grade_analysis(const std::vector<Student_info>&,
+                      double grade(const Student_info&));
 
 std::istream& read(std::istream&, Student_info&);
 std::istream& read_hw(std::istream&, std::vector<double>&);
