@@ -30,7 +30,34 @@ namespace rvn
         return d;
     }
 
-    // remove_copy_if(b,e,d,p)
+    template<class In, class Out, class Pred> Out remove_copy_if(In b, In e, Out d, Pred p)
+    {
+        while (b != e) {
+            if (!p(*b)) {
+                *d++ = *b;
+            }
+            ++b;
+        }
+        return d;
+    }
+
+    template<class In, class Out, class Func> Out transform(In b, In e, Out d, Func f)
+    {
+        while (b != e) {
+            *d++ = f(*b++);
+        }
+        return d;
+    }
+
+    template<class In, class T> T accumulate(In b, In e, const T& x)
+    {
+        T a = x;
+        while (b != e) {
+            a += *b++;
+        }
+        return a;
+    }
+
     // transform(b,e,d,f)
     // accumulate(b,e,t)
     // search(b,e,b2,e2)
@@ -39,6 +66,20 @@ namespace rvn
     // remove(b,e,t)
     // partition(b,e,p)
 }
+
+struct IsNeg {
+    bool operator()(const int& x)
+    {
+        return x < 0;
+    }
+};
+
+struct DoDouble {
+    int operator()(const int& x)
+    {
+        return 2*x;
+    }
+};
 
 int main()
 {
@@ -57,6 +98,38 @@ int main()
     else
         std::cout << "not found" << std::endl;
 
+    // remove_copy_if
+    std::vector<int> test3 {1,-2,3,-4,5,-6,7};
+    std::vector<int> test4(test3.size(), 0);
+    for (const auto& e : test4) {
+        std::cout << e << ", ";
+    }
+    std::cout << std::endl;
+    rvn::remove_copy_if(test3.begin(), test3.end(), test4.begin(), IsNeg());
+    //rvn::remove_copy_if(test3.begin(), test3.end(), test4.begin(), [](const int& x){ return x<0; });
+    for (const auto& e : test4) {
+        std::cout << e << ", ";
+    }
+    std::cout << std::endl;
+
+    // transform
+    std::vector<int> test5(test1.size(), 0);
+    for (const auto& e : test5) {
+        std::cout << e << ", ";
+    }
+    std::cout << std::endl;
+    //rvn::transform(test1.begin(), test1.end(), test5.begin(), DoDouble());
+    rvn::transform(test1.begin(), test1.end(), test5.begin(), [](const int& x){ return 2*x; });
+    for (const auto& e : test5) {
+        std::cout << e << ", ";
+    }
+    std::cout << std::endl;
+
+    // accumulate
+    int x = rvn::accumulate(test1.begin(), test1.end(), 0);
+    std::cout << x << std::endl;
+    x = rvn::accumulate(test1.begin(), test1.end(), 10);
+    std::cout << x << std::endl;
 
     return 0;
 }
