@@ -58,10 +58,28 @@ namespace rvn
         return a;
     }
 
-    // transform(b,e,d,f)
-    // accumulate(b,e,t)
+    template<class In> int distance(In b, In e)
+    {
+        int c=0;
+        while (b++ != e) {
+            ++c;
+        }
+        return c;
+    }
+
     // search(b,e,b2,e2)
+
+    template<class In, class Pred> In find_if(In b, In e, Pred p)
+    {
+        while (b != e) {
+            if (p(*b)) break;
+            ++b;
+        }
+        return b;
+    }
+
     // find_if(b,e,p)
+
     // remove_copy(b,e,d,t)
     // remove(b,e,t)
     // partition(b,e,p)
@@ -79,6 +97,16 @@ struct DoDouble {
     {
         return 2*x;
     }
+};
+
+struct LargeTest {
+    LargeTest(const int& n) : n{n} {};
+    bool operator()(const int& x)
+    {
+        return x > n;
+    }
+private:
+    const int n=0;
 };
 
 int main()
@@ -105,11 +133,13 @@ int main()
         std::cout << e << ", ";
     }
     std::cout << std::endl;
-    rvn::remove_copy_if(test3.begin(), test3.end(), test4.begin(), IsNeg());
+    std::vector<int>::iterator test4_end = rvn::remove_copy_if(test3.begin(), test3.end(), test4.begin(), IsNeg());
     //rvn::remove_copy_if(test3.begin(), test3.end(), test4.begin(), [](const int& x){ return x<0; });
     for (const auto& e : test4) {
         std::cout << e << ", ";
     }
+    std::cout << std::endl;
+    std::cout << rvn::distance(test4.begin(), test4_end);
     std::cout << std::endl;
 
     // transform
@@ -130,6 +160,13 @@ int main()
     std::cout << x << std::endl;
     x = rvn::accumulate(test1.begin(), test1.end(), 10);
     std::cout << x << std::endl;
+
+    // find
+    //std::vector<int>::iterator it = rvn::find_if(test1.begin(), test1.end(), LargeTest(12));
+    std::vector<int>::iterator it = rvn::find_if(test1.begin(), test1.end(), [](const int& x){ return x > 12; });
+    if (it != test1.end()) std::cout << "found if" << std::endl;
+    else std::cout << "not found if" << std::endl;
+
 
     return 0;
 }
