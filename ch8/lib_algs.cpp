@@ -1,5 +1,8 @@
 #include <iostream>
+#include <list>
+#include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace rvn
@@ -65,6 +68,15 @@ namespace rvn
             ++c;
         }
         return c;
+    }
+
+    template<class In, class Func> In print(In b, In e, Func f, std::ostream& o)
+    {
+        while (b != e) {
+            o << f(b++);
+            if (b != e) o << ", ";
+        }
+        return b;
     }
 
     // search(b,e,b2,e2)
@@ -166,6 +178,22 @@ int main()
     std::vector<int>::iterator it = rvn::find_if(test1.begin(), test1.end(), [](const int& x){ return x > 12; });
     if (it != test1.end()) std::cout << "found if" << std::endl;
     else std::cout << "not found if" << std::endl;
+
+    // print
+    typedef std::vector<int>::iterator t_it;
+    rvn::print(test1.begin(), test1.end(), [](t_it it){return *it;}, std::cout);
+    std::cout << std::endl;
+    std::unordered_map<int,int> test6 {{1,0},
+                                       {2,0},
+                                       {3,0},
+                                       {4,0},
+                                       {5,0},
+                                       {6,0},
+                                       {7,0}};
+    typedef std::unordered_map<int,int>::iterator t_mit;
+    std::stringstream ss;
+    rvn::print(test6.begin(), test6.end(), [](t_mit it){return it->first;}, ss);
+    std::cout << ss.str();
 
 
     return 0;
