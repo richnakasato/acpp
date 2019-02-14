@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <list>
 #include <sstream>
@@ -90,11 +91,40 @@ namespace rvn
         return b;
     }
 
-    // find_if(b,e,p)
+    template<class In, class Out, class X> Out remove_copy(In b, In e, Out d, const X& x)
+    {
+        while (b != e) {
+            if (*b != x)
+                *d++ = *b;
+            ++b;
+        }
+        return d;
+    }
 
-    // remove_copy(b,e,d,t)
-    // remove(b,e,t)
-    // partition(b,e,p)
+    template<class Out, class X> Out remove(Out b, Out e, const X& x)
+    {
+        Out dst = b;
+        while (b != e) {
+            if (*b != x) {
+                *dst++ = *b;
+            }
+            ++b;
+        }
+        return dst;
+    }
+
+    template<class Out, class Fun> Out partition(Out b, Out e, Fun f)
+    {
+        Out dst = b;
+        while (b != e) {
+            if (f(*b)) {
+                std::swap(*b, *dst);
+                ++dst;
+            }
+            ++b;
+        }
+        return dst;
+    }
 }
 
 struct IsNeg {
@@ -113,10 +143,14 @@ struct DoDouble {
 
 struct LargeTest {
     LargeTest(const int& n) : n{n} {};
-    bool operator()(const int& x)
-    {
-        return x > n;
-    }
+    bool operator()(const int& x) { return x > n; }
+private:
+    const int n=0;
+};
+
+struct LessThan {
+    LessThan(const int& x) : n{x} {};
+    bool operator()(const int& x) { return x < n; }
 private:
     const int n=0;
 };
@@ -160,6 +194,7 @@ int main()
         std::cout << e << ", ";
     }
     std::cout << std::endl;
+
     //rvn::transform(test1.begin(), test1.end(), test5.begin(), DoDouble());
     rvn::transform(test1.begin(), test1.end(), test5.begin(), [](const int& x){ return 2*x; });
     for (const auto& e : test5) {
@@ -194,7 +229,26 @@ int main()
     std::stringstream ss;
     rvn::print(test6.begin(), test6.end(), [](t_mit it){return it->first;}, ss);
     std::cout << ss.str();
+    std::cout << std::endl;
 
+    // remove copy
+    std::vector<int> test7 {1,1,1,1,3,3,3,3,1,1,1,1};
+    std::vector<int> test8(test7.size());
+    rvn::remove_copy(test7.begin(), test7.end(), test8.begin(), 3);
+    rvn::print(test8.begin(), test8.end(), [](t_it it){ return *it; }, std::cout);
+    std::cout << std::endl;
+
+    // remove
+    rvn::remove(test7.begin(), test7.end(), 3);
+    rvn::print(test7.begin(), test7.end(), [](t_it it){ return *it; }, std::cout);
+    std::cout << std::endl;
+
+    // partition
+    std::vector<int> test9 {1,1,1,1,3,3,3,3,1,1,1,1};
+    rvn::print(test9.begin(), test9.end(), [](t_it it){ return *it; }, std::cout);
+    std::cout << std::endl;
+    rvn::partition(test9.begin(), test9.end(), LessThan(2));
+    rvn::print(test9.begin(), test9.end(), [](t_it it){ return *it; }, std::cout);
 
     return 0;
 }
