@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-template <typename Rnd>
-double median(Rnd beg, Rnd end)
+template <typename Rnd, typename T>
+T median(Rnd beg, Rnd end)
 {
     size_t size = end - beg;
     if (size == 0) {
