@@ -3,7 +3,7 @@
 #include <vector>
 
 class String_list {
-    std::list<std::string> strs;
+    std::list<const char*> strs;
 public:
     String_list(){}
 };
