@@ -6,13 +6,13 @@
 
 namespace rvn {
     class String_list {
+        std::list<std::string> strs;
+
+    public:
         typedef std::list<std::string>::iterator iterator;
         typedef std::list<std::string>::const_iterator const_iterator;
         typedef std::list<std::string>::size_type size_type;
 
-        std::list<std::string> strs;
-
-    public:
         String_list() = default;
         String_list(const int& n, const std::string& s) : strs(n,s) {};
 
