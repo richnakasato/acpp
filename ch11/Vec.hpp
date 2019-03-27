@@ -1,6 +1,5 @@
 namespace rvn {
-    template <typename T>
-    class Vec {
+    template <typename T> class Vec {
     public:
         typedef T* iterator;
         typedef const T* const_iterator;
@@ -21,6 +20,8 @@ namespace rvn {
 
         T& operator[](size_type i) { return data[i]; }
         const T& operator[](size_type i) const { return data[i]; }
+
+        Vec& operator=(const Vec& v);
 
         iterator begin() { return data; }
         const_iterator begin() const { return data; }
