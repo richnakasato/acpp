@@ -1,3 +1,5 @@
+#include <memory>
+
 namespace rvn {
     template <typename T> class Vec {
     public:
@@ -13,7 +15,7 @@ namespace rvn {
 
         // interface
         Vec() { create(); }
-        explicit Vec(std::size_t n, const T& t=T()) { create(n, t); }
+        explicit Vec(std::size_t n, const T& val=T()) { create(n, val); }
 
         Vec(const Vec& v) { create(v.begin(), v.end()); }
         Vec& operator=(const Vec& v);
@@ -22,13 +24,12 @@ namespace rvn {
         T& operator[](size_type i) { return data[i]; }
         const T& operator[](size_type i) const { return data[i]; }
 
-        void push_back(const T& t)
+        void push_back(const T& val)
         {
             if (avail == limit)
                 grow();
-            unchecked_append(t);
+            unchecked_append(val);
         }
-
         size_type size() const { return limit - data; }
 
         iterator begin() { return data; }
@@ -43,7 +44,7 @@ namespace rvn {
         iterator avail;
         iterator limit;
 
-        allocator<T> alloc;
+        std::allocator<T> alloc;
 
         create();
         create(size_type, const T&);
