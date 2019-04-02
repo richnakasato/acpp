@@ -13,15 +13,23 @@ namespace rvn {
 
         // interface
         Vec() { create(); }
-        explicit Vec(std::size_t n, const T& val=T()) { create(n, val); }
-        Vec(const Vec& v) { create(v.begin(), v.end()); }
+        explicit Vec(std::size_t n, const T& t=T()) { create(n, t); }
 
-        size_type size() const { return limit - data; }
+        Vec(const Vec& v) { create(v.begin(), v.end()); }
+        Vec& operator=(const Vec& v);
+        ~Vec() { uncreate(); }
 
         T& operator[](size_type i) { return data[i]; }
         const T& operator[](size_type i) const { return data[i]; }
 
-        Vec& operator=(const Vec& v);
+        void push_back(const T& t)
+        {
+            if (avail == limit)
+                grow();
+            unchecked_append(t);
+        }
+
+        size_type size() const { return limit - data; }
 
         iterator begin() { return data; }
         const_iterator begin() const { return data; }
@@ -32,10 +40,18 @@ namespace rvn {
     private:
         // implementation
         iterator data;
+        iterator avail;
         iterator limit;
+
+        allocator<T> alloc;
 
         create();
         create(size_type, const T&);
         create(const_iterator, const_iterator);
+
+        void uncreate();
+
+        void grow();
+        void unchecked_append(const T&);
     };
 }
